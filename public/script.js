@@ -9,9 +9,74 @@ document.addEventListener('DOMContentLoaded', () => {
     initFAQ();
     initNavScroll();
     initFormFileUpload();
+    initListOptionToggle();
     initFormSubmission();
     initAnimations();
 });
+
+// ============================================
+// List Option Toggle
+// ============================================
+function initListOptionToggle() {
+    const listOptions = document.querySelectorAll('input[name="listOption"]');
+    const haveListContent = document.getElementById('have-list-content');
+    const buildListContent = document.getElementById('build-list-content');
+    const csvFileInput = document.getElementById('csvFile');
+    
+    if (!listOptions.length) return;
+    
+    listOptions.forEach(option => {
+        option.addEventListener('change', () => {
+            if (option.value === 'have-list') {
+                haveListContent.style.display = 'block';
+                buildListContent.style.display = 'none';
+                // Make CSV required, remove required from build fields
+                if (csvFileInput) csvFileInput.setAttribute('required', '');
+                toggleBuildListRequired(false);
+            } else {
+                haveListContent.style.display = 'none';
+                buildListContent.style.display = 'block';
+                // Remove CSV required, make build fields required
+                if (csvFileInput) csvFileInput.removeAttribute('required');
+                toggleBuildListRequired(true);
+            }
+        });
+    });
+}
+
+function toggleBuildListRequired(required) {
+    const buildFields = ['targetTitles', 'targetIndustries', 'companySize', 'geography'];
+    buildFields.forEach(fieldId => {
+        const field = document.getElementById(fieldId);
+        if (field) {
+            if (required) {
+                field.setAttribute('required', '');
+            } else {
+                field.removeAttribute('required');
+            }
+        }
+    });
+}
+
+// ============================================
+// Email Validation (Company emails only)
+// ============================================
+const personalEmailDomains = [
+    'gmail.com', 'yahoo.com', 'yahoo.co.uk', 'hotmail.com', 'hotmail.co.uk',
+    'outlook.com', 'outlook.co.uk', 'live.com', 'live.co.uk', 'msn.com',
+    'aol.com', 'icloud.com', 'me.com', 'mac.com', 'protonmail.com',
+    'proton.me', 'zoho.com', 'yandex.com', 'mail.com', 'gmx.com',
+    'inbox.com', 'fastmail.com', 'tutanota.com', 'hey.com', 'pm.me',
+    'googlemail.com', 'qq.com', '163.com', '126.com', 'sina.com',
+    'rediffmail.com', 'ymail.com', 'rocketmail.com'
+];
+
+function isCompanyEmail(email) {
+    if (!email) return false;
+    const domain = email.split('@')[1]?.toLowerCase();
+    if (!domain) return false;
+    return !personalEmailDomains.includes(domain);
+}
 
 // ============================================
 // Mobile Menu
@@ -198,6 +263,34 @@ function initFormSubmission() {
         
         const submitBtn = form.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
+        const emailInput = form.querySelector('#email');
+        const listOption = form.querySelector('input[name="listOption"]:checked')?.value;
+        
+        // Validate company email
+        if (emailInput && !isCompanyEmail(emailInput.value)) {
+            showNotification('error', 'Please use your company email address. Personal emails (Gmail, Yahoo, etc.) are not accepted.');
+            emailInput.focus();
+            return;
+        }
+        
+        // Validate based on list option
+        if (listOption === 'have-list') {
+            const csvFile = form.querySelector('#csvFile');
+            if (!csvFile.files.length) {
+                showNotification('error', 'Please upload a CSV file with your prospect list.');
+                return;
+            }
+        } else if (listOption === 'build-list') {
+            const requiredFields = ['targetTitles', 'targetIndustries', 'companySize', 'geography'];
+            for (const fieldId of requiredFields) {
+                const field = form.querySelector(`#${fieldId}`);
+                if (!field.value.trim()) {
+                    showNotification('error', 'Please fill in all targeting fields to build your list.');
+                    field.focus();
+                    return;
+                }
+            }
+        }
         
         // Show loading state
         submitBtn.textContent = 'Submitting...';
@@ -221,7 +314,7 @@ function initFormSubmission() {
                 submitBtn.style.backgroundColor = '#22c55e';
                 
                 // Show success notification
-                showNotification('success', result.message || 'Your request has been submitted! We\'ll send your personalized emails within 5 minutes.');
+                showNotification('success', result.message || 'Your request has been submitted! We\'ll send your personalized emails within 20 minutes.');
                 
                 // Reset form after delay
                 setTimeout(() => {
@@ -239,6 +332,10 @@ function initFormSubmission() {
                     if (fileUpload) {
                         fileUpload.classList.remove('has-file');
                     }
+                    
+                    // Reset list option view
+                    document.getElementById('have-list-content').style.display = 'block';
+                    document.getElementById('build-list-content').style.display = 'none';
                 }, 3000);
             } else {
                 // Show error

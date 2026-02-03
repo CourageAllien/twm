@@ -1352,6 +1352,76 @@ h1, h2, h3, h4, h5, h6 {
     margin-bottom: var(--space-md);
 }
 
+.form-hint {
+    font-size: 0.75rem;
+    color: var(--grey-500);
+    margin-top: var(--space-xs);
+}
+
+.required {
+    color: #dc2626;
+}
+
+/* List Option Toggle */
+.list-option-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.list-option {
+    cursor: pointer;
+}
+
+.list-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.list-option-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-lg);
+    background-color: var(--grey-50);
+    border: 2px solid var(--grey-300);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+
+.list-option input[type="radio"]:checked + .list-option-box {
+    border-color: var(--grey-900);
+    background-color: var(--grey-100);
+}
+
+.list-option-box:hover {
+    border-color: var(--grey-400);
+}
+
+.list-option-title {
+    font-weight: 600;
+    color: var(--grey-900);
+    margin-bottom: var(--space-xs);
+}
+
+.list-option-desc {
+    font-size: 0.875rem;
+    color: var(--grey-500);
+}
+
+.list-option-content {
+    animation: fadeIn 0.3s ease;
+}
+
+@media (max-width: 480px) {
+    .list-option-toggle {
+        grid-template-columns: 1fr;
+    }
+}
+
 .file-upload {
     position: relative;
 }

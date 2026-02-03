@@ -644,16 +644,17 @@
                     <div class="form-section">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="name">Your Name</label>
+                                <label for="name">Your Name <span class="required">*</span></label>
                                 <input type="text" id="name" name="name" required>
                             </div>
                             <div class="form-group">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" required>
+                                <label for="email">Work Email <span class="required">*</span></label>
+                                <input type="email" id="email" name="email" required placeholder="you@company.com">
+                                <p class="form-hint">Please use your company email (no gmail, yahoo, etc.)</p>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="company">Company</label>
+                            <label for="company">Company <span class="required">*</span></label>
                             <input type="text" id="company" name="company" required>
                         </div>
                     </div>
@@ -661,44 +662,88 @@
                     <div class="form-section">
                         <h4>About Your Offer</h4>
                         <div class="form-group">
-                            <label for="sell">What do you sell?</label>
+                            <label for="sell">What do you sell? <span class="required">*</span></label>
                             <textarea id="sell" name="sell" rows="2" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="target">Who is your target customer? (title, industry, company size)</label>
+                            <label for="target">Who is your target customer? (title, industry, company size) <span class="required">*</span></label>
                             <textarea id="target" name="target" rows="2" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="benefit">What's the main benefit of your offer?</label>
+                            <label for="benefit">What's the main benefit of your offer? <span class="required">*</span></label>
                             <textarea id="benefit" name="benefit" rows="2" required></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="cta">What's the call to action? (book a call, reply, visit link)</label>
+                            <label for="cta">What's the call to action? (book a call, reply, visit link) <span class="required">*</span></label>
                             <textarea id="cta" name="cta" rows="2" required></textarea>
                         </div>
                     </div>
 
                     <div class="form-section">
-                        <h4>Upload Your Prospect List</h4>
-                        <p class="form-help">Upload CSV with 20 prospects (name, company, title, email)</p>
-                        <div class="file-upload">
-                            <input type="file" id="csvFile" name="csvFile" accept=".csv" required>
-                            <div class="file-upload-label">
-                                <span class="file-upload-icon">📄</span>
-                                <span class="file-upload-text">Upload CSV or drag and drop</span>
+                        <h4>Your Prospect List</h4>
+                        <div class="list-option-toggle">
+                            <label class="list-option">
+                                <input type="radio" name="listOption" value="have-list" checked>
+                                <span class="list-option-box">
+                                    <span class="list-option-title">I have a list</span>
+                                    <span class="list-option-desc">Upload your CSV file</span>
+                                </span>
+                            </label>
+                            <label class="list-option">
+                                <input type="radio" name="listOption" value="build-list">
+                                <span class="list-option-box">
+                                    <span class="list-option-title">Build a list for me</span>
+                                    <span class="list-option-desc">Tell us who to target</span>
+                                </span>
+                            </label>
+                        </div>
+
+                        <!-- Option: Have a list -->
+                        <div class="list-option-content" id="have-list-content">
+                            <p class="form-help">Upload CSV with 20 prospects (name, company, title, email)</p>
+                            <div class="file-upload">
+                                <input type="file" id="csvFile" name="csvFile" accept=".csv">
+                                <div class="file-upload-label">
+                                    <span class="file-upload-icon">📄</span>
+                                    <span class="file-upload-text">Upload CSV or drag and drop</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Option: Build a list -->
+                        <div class="list-option-content" id="build-list-content" style="display: none;">
+                            <div class="form-group">
+                                <label for="targetTitles">Target Job Titles <span class="required">*</span></label>
+                                <input type="text" id="targetTitles" name="targetTitles" placeholder="e.g., VP Sales, Director of Marketing, CEO">
+                            </div>
+                            <div class="form-group">
+                                <label for="targetIndustries">Target Industries <span class="required">*</span></label>
+                                <input type="text" id="targetIndustries" name="targetIndustries" placeholder="e.g., SaaS, Fintech, Healthcare">
+                            </div>
+                            <div class="form-group">
+                                <label for="companySize">Company Size <span class="required">*</span></label>
+                                <input type="text" id="companySize" name="companySize" placeholder="e.g., 50-200 employees, $10M-$50M revenue">
+                            </div>
+                            <div class="form-group">
+                                <label for="geography">Geography <span class="required">*</span></label>
+                                <input type="text" id="geography" name="geography" placeholder="e.g., US, UK, California">
+                            </div>
+                            <div class="form-group">
+                                <label for="exclusions">Any Exclusions?</label>
+                                <input type="text" id="exclusions" name="exclusions" placeholder="e.g., competitors, current customers">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-section">
                         <div class="form-group">
-                            <label for="notes">Any additional notes? (tone, things to mention/avoid, etc.)</label>
-                            <textarea id="notes" name="notes" rows="2"></textarea>
+                            <label for="notes">Any additional notes? (tone, things to mention/avoid, etc.) <span class="required">*</span></label>
+                            <textarea id="notes" name="notes" rows="2" required></textarea>
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-large">Get My Free Sample →</button>
-                    <p class="form-note">Delivered to your inbox within 2 hours.</p>
+                    <p class="form-note">Delivered to your inbox within 20 minutes.</p>
                 </form>
 
                 <div class="sample-what-you-get">
@@ -707,7 +752,7 @@
                         <li>20 prospects × 3 emails each = 60 personalized emails</li>
                         <li>Subject lines for each version</li>
                         <li>Same quality as our paid service</li>
-                        <li>Delivered in 2 hours</li>
+                        <li>Delivered in 20 minutes</li>
                     </ul>
                     <p class="sample-promise">No obligations. No credit card. Just see if you like what we do.</p>
                 </div>
